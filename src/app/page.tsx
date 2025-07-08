@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -22,6 +23,12 @@ export default function Home() {
           </li>
           <li className="tracking-[-.01em]">
             Save and see your changes instantly.
+          </li>
+          <li className="tracking-[-.01em]">
+            Go to Login page{" "}
+            <Link className="text-blue-600 font-bold" href="auth/login">
+              Click Here
+            </Link>
           </li>
         </ol>
 
