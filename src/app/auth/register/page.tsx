@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,7 +16,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -33,6 +33,7 @@ import { EyeOff, Eye } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { axiosInstance } from "@/lib/axios";
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -41,7 +42,7 @@ const formSchema = z.object({
   password: z.string().min(8, {
     message: "Password must be at least 8 characters long.",
   }),
-  role: z.enum(["user", "admin"]),
+  role: z.enum(["User", "Admin"]),
 });
 
 export default function Register() {
@@ -50,8 +51,20 @@ export default function Register() {
   });
   const [togleEye, setTogleEye] = useState<boolean>(false);
 
-  function onSubmit(value: z.infer<typeof formSchema>) {
-    console.log(value);
+  const router = useRouter();
+
+  async function onSubmit(value: z.infer<typeof formSchema>) {
+    try {
+      const response = await axiosInstance.post("/auth/register", value);
+      if (response) {
+        const responseLogin = await axiosInstance.post("/auth/login", value);
+        localStorage.setItem("token", responseLogin.data.token);
+        localStorage.setItem("role", responseLogin.data.role);
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -150,8 +163,8 @@ export default function Register() {
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup className="**:font-[family-name:var(--font-archivo)]">
-                              <SelectItem value="user">User</SelectItem>
-                              <SelectItem value="admin">Admin</SelectItem>
+                              <SelectItem value="User">User</SelectItem>
+                              <SelectItem value="Admin">Admin</SelectItem>
                             </SelectGroup>
                           </SelectContent>
                         </Select>
