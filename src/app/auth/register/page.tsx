@@ -55,13 +55,11 @@ export default function Register() {
 
   async function onSubmit(value: z.infer<typeof formSchema>) {
     try {
-      const response = await axiosInstance.post("/auth/register", value);
-      if (response) {
-        const responseLogin = await axiosInstance.post("/auth/login", value);
-        localStorage.setItem("token", responseLogin.data.token);
-        localStorage.setItem("role", responseLogin.data.role);
-        router.push("/");
-      }
+      await axiosInstance.post("/auth/register", value);
+      const responseLogin = await axiosInstance.post("/auth/login", value);
+      localStorage.setItem("token", responseLogin.data.token);
+      localStorage.setItem("role", responseLogin.data.role);
+      router.push("/");
     } catch (error) {
       console.error(error);
     }

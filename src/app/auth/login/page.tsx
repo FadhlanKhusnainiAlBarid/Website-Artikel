@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,9 +41,17 @@ export default function Login() {
     resolver: zodResolver(formSchema),
   });
   const [togleEye, setTogleEye] = useState<boolean>(false);
+  const router = useRouter();
 
-  function onSubmit(value: z.infer<typeof formSchema>) {
-    console.log(value);
+  async function onSubmit(value: z.infer<typeof formSchema>) {
+    try {
+      const response = await axiosInstance.post("/auth/login", value);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", response.data.role);
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
