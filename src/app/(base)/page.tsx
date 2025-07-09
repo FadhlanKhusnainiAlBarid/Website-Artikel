@@ -9,6 +9,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import Image_Background from "../../../public/images/image-background.jpg";
+import CardArticle from "@/components/custom/card-article";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export default function ListArticles() {
   return (
@@ -54,6 +64,34 @@ export default function ListArticles() {
             </div>
           </div>
         </div>
+      </section>
+      <section className="mx-auto container max-w-[1440px] space-y-6 pt-10 pb-[60px] md:pb-[100px] px-5 md:px-[100px]">
+        <h6 className="font-archivo text-base hidden md:block">
+          Showing : 20 of 240 articles
+        </h6>
+        <div className="w-fit grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-[40px] md:gap-y-[60px]">
+          <CardArticle />
+          <CardArticle />
+          <CardArticle />
+          <CardArticle />
+          <CardArticle />
+        </div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </section>
     </>
   );
