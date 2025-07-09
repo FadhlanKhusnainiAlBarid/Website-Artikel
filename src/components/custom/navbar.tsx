@@ -5,7 +5,7 @@ import LogoWhite from "../../../public/images/logo-white-img.png";
 
 function Navbar() {
   return (
-    <nav className="fixed flex justify-between items-center w-full h-16 md:h-fit bg-white md:bg-transparent px-5 md:px-[60px] py-4 md:py-8 ">
+    <nav className="fixed flex justify-between items-center w-full h-16 md:h-fit bg-white md:bg-transparent px-5 md:px-[60px] py-4 md:py-8 z-10">
       <Image src={LogoWhite} alt="Logo Whites" className="hidden md:block" />
       <Image src={Logo} alt="Logo" className="block md:hidden h-[22px]" />
       <div className="cursor-pointer flex items-center gap-1.5 font-[family-name:var(--font-archivo)]">

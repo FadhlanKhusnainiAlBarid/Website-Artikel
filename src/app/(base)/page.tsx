@@ -13,8 +13,14 @@ import Image_Background from "../../../public/images/image-background.jpg";
 export default function ListArticles() {
   return (
     <>
-      <header className="w-full h-[624px] md:h-[500px] flex justify-center items-center bg-[#2563EB]/[86%] px-[15px]">
-        <div className="max-w-[730px] flex flex-col items-center gap-10">
+      <section
+        style={{
+          backgroundImage: `url(${Image_Background.src})`,
+        }}
+        className="relative bg-cover bg-center w-full h-[624px] md:h-[500px] flex justify-center items-center px-[15px]"
+      >
+        <div className="absolute inset-0 bg-[#2563EB] opacity-[86%]"></div>
+        <div className="max-w-[730px] flex flex-col items-center gap-10 z-10">
           <div className="text-center text-white font-archivo space-y-3">
             <p className="font-bold text-sm md:text-base">Blog genzet</p>
             <h1 className="text-4xl md:text-5xl font-medium text-center">
@@ -48,7 +54,7 @@ export default function ListArticles() {
             </div>
           </div>
         </div>
-      </header>
+      </section>
     </>
   );
 }
