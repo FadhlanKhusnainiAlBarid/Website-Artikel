@@ -15,10 +15,19 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label } from "@radix-ui/react-label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Logo from "../../../../public/images/logo-img.png";
 import { EyeOff, Eye } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,9 +41,10 @@ const formSchema = z.object({
   password: z.string().min(8, {
     message: "Password must be at least 8 characters long.",
   }),
+  role: z.enum(["user", "admin"]),
 });
 
-export default function Login() {
+export default function Register() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -61,7 +71,12 @@ export default function Login() {
                   name="username"
                   render={({ field }) => (
                     <FormItem className="grid gap-2">
-                      <Label htmlFor="username">Username</Label>
+                      <Label
+                        htmlFor="username"
+                        className="font-[family-name:var(--font-archivo)]"
+                      >
+                        Username
+                      </Label>
                       <FormControl>
                         <Input
                           className="h-10 font-[family-name:var(--font-archivo)]"
@@ -114,6 +129,37 @@ export default function Login() {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem className="grid gap-2">
+                      <Label
+                        htmlFor="role"
+                        className="font-[family-name:var(--font-archivo)]"
+                      >
+                        Role
+                      </Label>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger className="min-h-10 w-full font-[family-name:var(--font-archivo)]">
+                            <SelectValue placeholder="Select Role" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup className="**:font-[family-name:var(--font-archivo)]">
+                              <SelectItem value="user">User</SelectItem>
+                              <SelectItem value="admin">Admin</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </CardContent>
             <CardFooter className="flex-col gap-6 px-0">
@@ -122,15 +168,15 @@ export default function Login() {
                 size="lg"
                 className="cursor-pointer w-full bg-blue-600 hover:bg-blue-500 font-[family-name:var(--font-archivo)]"
               >
-                Login
+                Register
               </Button>
               <span className="text-sm font-[family-name:var(--font-archivo)]">
-                Don't have an account?{" "}
+                Already have an account?{" "}
                 <Link
                   className="text-blue-600 underline underline-offset-2"
-                  href="register"
+                  href="login"
                 >
-                  Register
+                  Login
                 </Link>
               </span>
             </CardFooter>
