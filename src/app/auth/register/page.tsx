@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCookies } from "next-client-cookies";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,15 +51,15 @@ export default function Register() {
     resolver: zodResolver(formSchema),
   });
   const [togleEye, setTogleEye] = useState<boolean>(false);
-
   const router = useRouter();
+  const cookies = useCookies();
 
   async function onSubmit(value: z.infer<typeof formSchema>) {
     try {
       await axiosInstance.post("/auth/register", value);
       const responseLogin = await axiosInstance.post("/auth/login", value);
-      localStorage.setItem("token", responseLogin.data.token);
-      localStorage.setItem("role", responseLogin.data.role);
+      cookies.set("token", responseLogin.data.token);
+      cookies.set("role", responseLogin.data.role);
       router.push("/");
     } catch (error) {
       console.error(error);

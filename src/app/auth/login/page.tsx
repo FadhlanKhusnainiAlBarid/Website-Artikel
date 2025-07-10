@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCookies } from "next-client-cookies";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,12 +43,13 @@ export default function Login() {
   });
   const [togleEye, setTogleEye] = useState<boolean>(false);
   const router = useRouter();
+  const cookies = useCookies();
 
   async function onSubmit(value: z.infer<typeof formSchema>) {
     try {
       const response = await axiosInstance.post("/auth/login", value);
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("role", response.data.role);
+      cookies.set("token", response.data.token);
+      cookies.set("role", response.data.role);
       router.push("/");
     } catch (error) {
       console.error(error);

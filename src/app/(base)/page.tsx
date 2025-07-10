@@ -1,5 +1,5 @@
 import HeroSection from "@/components/section/base/hero";
-import ContentSeaction from "@/components/section/base/detail/content";
+import ContentSeaction from "@/components/section/base/content";
 
 function ListArticles() {
   return (
