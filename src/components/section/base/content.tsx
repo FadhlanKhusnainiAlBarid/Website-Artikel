@@ -44,18 +44,8 @@ export interface DataSection extends PaginationData {
   data: ArticleData[];
 }
 
-export default function ContentSection({ data }: { data: DataSection }) {
-  const { articles, setArticles, pagination, setPagination } =
-    useArticlesStore();
-
-  useEffect(() => {
-    setArticles(data.data);
-    setPagination({
-      total: data.total,
-      page: data.page,
-      limit: data.limit,
-    });
-  }, []);
+export default function ContentSection() {
+  const { articles, pagination, setPagination } = useArticlesStore();
   return (
     <section className="mx-auto container max-w-[1440px] space-y-6 pt-10 pb-[60px] md:pb-[100px] px-5 md:px-[100px]">
       <h6 className="font-archivo text-base hidden md:block">
@@ -68,17 +58,59 @@ export default function ContentSection({ data }: { data: DataSection }) {
       </div>
       <Pagination>
         <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
+          <PaginationItem
+            onClick={() =>
+              setPagination({
+                ...pagination,
+                page: pagination.page == 1 ? 1 : pagination.page - 1,
+              })
+            }
+          >
+            <PaginationPrevious />
           </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
+          {pagination.page >= 3 && (
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+          )}
+          {Array(Math.ceil(pagination.total / 9))
+            .keys()
+            .map((_, index) => (
+              <>
+                <PaginationItem
+                  className={`${
+                    Math.abs(pagination.page - (index + 1)) <= 1
+                      ? "block"
+                      : "hidden"
+                  } `}
+                  key={index}
+                  onClick={() =>
+                    setPagination({ ...pagination, page: index + 1 })
+                  }
+                >
+                  <PaginationLink isActive={pagination.page === index + 1}>
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              </>
+            ))}
+          {pagination.page + 1 < Math.ceil(pagination.total / 9) && (
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+          )}
+          <PaginationItem
+            onClick={() =>
+              setPagination({
+                ...pagination,
+                page:
+                  pagination.page === Math.ceil(pagination.total / 9)
+                    ? Math.ceil(pagination.total / 9)
+                    : pagination.page + 1,
+              })
+            }
+          >
+            <PaginationNext />
           </PaginationItem>
         </PaginationContent>
       </Pagination>

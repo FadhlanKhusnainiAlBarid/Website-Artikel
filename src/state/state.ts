@@ -15,8 +15,8 @@ export const useArticlesStore = create<ArticlesStore>((set) => ({
   setArticles: (articles: ArticleData[]) => set({ articles }),
   pagination: {
     total: 0,
-    page: 1,
-    limit: 20,
+    page: 0,
+    limit: 0,
   },
   setPagination: (pagination: PaginationData) => set({ pagination }),
   articleDetail: null,

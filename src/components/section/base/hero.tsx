@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -7,11 +8,82 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import Image_Background from "../../../../public/images/image-background.jpg";
+import { useArticlesStore } from "@/state/state";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { axiosInstance } from "@/lib/axios";
+
+const formSchema = z.object({
+  category: z.string().optional(),
+  search: z.string().optional(),
+});
 
 export default function HeroSection() {
+  const { setArticles, pagination, setPagination } = useArticlesStore();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      category: "",
+      search: "",
+    },
+  });
+
+  useEffect(() => {
+    const DebounceFilter = setTimeout(() => {
+      async function onSubmit(value: z.infer<typeof formSchema>) {
+        try {
+          const response = await axiosInstance.get("/articles", {
+            params: {
+              category: value.category,
+              title: value.search,
+              page: pagination.page,
+              limit: 9,
+            },
+          });
+          setArticles(response.data.data);
+          setPagination({
+            total: response.data.total,
+            page: response.data.page,
+            limit: response.data.limit,
+          });
+        } catch (error) {
+          console.error("Error fetching articles:", error);
+        }
+      }
+      onSubmit(form.getValues());
+    }, 500);
+
+    return () => clearTimeout(DebounceFilter);
+  }, [form.watch("category"), form.watch("search"), pagination.page]);
+
+  // useEffect(() => {
+  //   const DebouncePagination = setTimeout(() => {
+  //     async function onChange(value: z.infer<typeof formSchema>) {
+  //       try {
+  //         const response = await axiosInstance.get("/articles", {
+  //           params: {
+  //             category: value.category,
+  //             title: value.search,
+  //             page: pagination.page,
+  //             limit: 9,
+  //           },
+  //         });
+  //         setArticles(response.data.data);
+  //       } catch (error) {
+  //         console.error("Error fetching articles:", error);
+  //       }
+  //     }
+  //     onChange(form.getValues());
+  //   }, 500);
+
+  //   return () => clearTimeout(DebouncePagination);
+  // }, [pagination.page]);
+
   return (
     <section
       style={{
@@ -30,29 +102,56 @@ export default function HeroSection() {
             Your daily dose of design insights!
           </p>
         </div>
-        <div className="w-full md:w-fit flex flex-col md:flex-row items-center gap-2 p-2.5 bg-[rgb(59,130,246)] rounded-xl">
-          <Select>
-            <SelectTrigger className="w-full md:w-[180px] min-h-10 bg-white font-archivo">
-              <SelectValue placeholder="Select category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="blueberry">Blueberry</SelectItem>
-                <SelectItem value="grapes">Grapes</SelectItem>
-                <SelectItem value="pineapple">Pineapple</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <div className="min-w-full md:min-w-[400px] relative flex items-center">
-            <Search className="absolute left-2 size-4 text-gray-500" />
-            <Input
-              className="bg-white h-10 font-archivo pl-7"
-              placeholder="Search articles"
+        <Form {...form}>
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="w-full md:w-fit flex flex-col md:flex-row items-center gap-2 p-2.5 bg-[rgb(59,130,246)] rounded-xl"
+          >
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="w-full md:w-[180px] min-h-10 bg-white font-archivo">
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="apple">Apple</SelectItem>
+                          <SelectItem value="banana">Banana</SelectItem>
+                          <SelectItem value="blueberry">Blueberry</SelectItem>
+                          <SelectItem value="grapes">Grapes</SelectItem>
+                          <SelectItem value="pineapple">Pineapple</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </FormItem>
+              )}
             />
-          </div>
-        </div>
+            <FormField
+              control={form.control}
+              name="search"
+              render={({ field }) => (
+                <FormItem className="min-w-full md:min-w-[400px] relative flex items-center">
+                  <Search className="absolute left-2 size-4 text-gray-500" />
+                  <FormControl>
+                    <Input
+                      className="bg-white h-10 font-archivo pl-7"
+                      placeholder="Search articles"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
       </div>
     </section>
   );

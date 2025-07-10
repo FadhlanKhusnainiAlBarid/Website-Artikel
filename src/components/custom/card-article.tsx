@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { ArticleData } from "../section/base/content";
@@ -19,7 +20,12 @@ export default function CardArticle({ article }: { article: ArticleData }) {
       />
       <div className="space-y-2 font-archivo">
         <p className="text-xs md:text-sm text-slate-600">{formattedDate}</p>
-        <h1 className="text-base md:text-lg font-semibold">{article.title}</h1>
+        <Link
+          href={`/${article.id}`}
+          className="text-base md:text-lg font-semibold hover:underline text-slate-900 transition-all duration-200 hover:text-blue-600 font-archivo"
+        >
+          {article.title}
+        </Link>
         <p
           className="w-fit **:text-sm **:md:text-base **:text-slate-600 line-clamp-2"
           dangerouslySetInnerHTML={{ __html: article.content }}
