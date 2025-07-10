@@ -27,7 +27,7 @@ export default function CardArticle({ article }: { article: ArticleData }) {
           {article.title}
         </Link>
         <p
-          className="w-fit **:text-sm **:md:text-base **:text-slate-600 line-clamp-2"
+          className="w-fit text-sm md:text-base **:text-slate-600 line-clamp-2"
           dangerouslySetInnerHTML={{ __html: article.content }}
         />
         <Badge className="rounded-full px-3 py-1 bg-blue-200 text-xs md:text-sm text-blue-900 font-archivo">

@@ -61,29 +61,6 @@ export default function HeroSection() {
     return () => clearTimeout(DebounceFilter);
   }, [form.watch("category"), form.watch("search"), pagination.page]);
 
-  // useEffect(() => {
-  //   const DebouncePagination = setTimeout(() => {
-  //     async function onChange(value: z.infer<typeof formSchema>) {
-  //       try {
-  //         const response = await axiosInstance.get("/articles", {
-  //           params: {
-  //             category: value.category,
-  //             title: value.search,
-  //             page: pagination.page,
-  //             limit: 9,
-  //           },
-  //         });
-  //         setArticles(response.data.data);
-  //       } catch (error) {
-  //         console.error("Error fetching articles:", error);
-  //       }
-  //     }
-  //     onChange(form.getValues());
-  //   }, 500);
-
-  //   return () => clearTimeout(DebouncePagination);
-  // }, [pagination.page]);
-
   return (
     <section
       style={{
@@ -111,7 +88,7 @@ export default function HeroSection() {
               control={form.control}
               name="category"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}

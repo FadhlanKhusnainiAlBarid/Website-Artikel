@@ -1,8 +1,7 @@
-"use server";
 import HeroSection from "@/components/section/base/hero";
-import ContentSeaction from "@/components/section/base/content";
+import ContentSeaction from "@/components/section/base/detail/content";
 
-async function ListArticles() {
+function ListArticles() {
   return (
     <>
       <HeroSection />
