@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -23,8 +23,17 @@ const formSchema = z.object({
   search: z.string().optional(),
 });
 
+interface cetegories {
+  id: string;
+  userId: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function HeroSection() {
   const { setArticles, pagination, setPagination } = useArticlesStore();
+  const [cetegories, setCetegories] = useState<cetegories[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,6 +54,7 @@ export default function HeroSection() {
               limit: 9,
             },
           });
+          console.log(response.data);
           setArticles(response.data.data);
           setPagination({
             total: response.data.total,
@@ -60,6 +70,32 @@ export default function HeroSection() {
 
     return () => clearTimeout(DebounceFilter);
   }, [form.watch("category"), form.watch("search"), pagination.page]);
+
+  useEffect(() => {
+    async function getCategories() {
+      try {
+        const response = await axiosInstance.get("/categories", {
+          params: {
+            limit: 1000,
+          },
+        });
+        const validCategories = (response.data.data as cetegories[])
+          .filter((cat) => cat.id && cat.id.trim() !== "")
+          .filter(
+            (cat, idx, arr) => arr.findIndex((c) => c.name === cat.name) === idx
+          )
+          .sort((a, b) => a.name.localeCompare(b.name));
+        setCetegories(validCategories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    }
+    getCategories();
+  }, []);
+
+  useEffect(() => {
+    console.log(cetegories);
+  }, [cetegories]);
 
   return (
     <section
@@ -94,16 +130,16 @@ export default function HeroSection() {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <SelectTrigger className="w-full md:w-[180px] min-h-10 bg-white font-archivo">
+                      <SelectTrigger className="cursor-pointer w-full md:w-[180px] min-h-10 bg-white font-archivo">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="apple">Apple</SelectItem>
-                          <SelectItem value="banana">Banana</SelectItem>
-                          <SelectItem value="blueberry">Blueberry</SelectItem>
-                          <SelectItem value="grapes">Grapes</SelectItem>
-                          <SelectItem value="pineapple">Pineapple</SelectItem>
+                        <SelectGroup className="*:cursor-pointer">
+                          {cetegories?.map((category) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>

@@ -10,7 +10,6 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useArticlesStore } from "@/state/state";
-import { useEffect } from "react";
 
 export interface ArticleData {
   id: string;
@@ -49,7 +48,7 @@ export default function ContentSection() {
   return (
     <section className="mx-auto container max-w-[1440px] space-y-6 pt-10 pb-[60px] md:pb-[100px] px-5 md:px-[100px]">
       <h6 className="font-archivo text-base hidden md:block">
-        Showing : 20 of 240 articles
+        Showing : {articles.length} of {pagination.total} articles
       </h6>
       <div className="w-fit grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-[40px] md:gap-y-[60px]">
         {articles.map((article) => (
@@ -59,6 +58,7 @@ export default function ContentSection() {
       <Pagination>
         <PaginationContent>
           <PaginationItem
+            className="cursor-pointer"
             onClick={() =>
               setPagination({
                 ...pagination,
@@ -69,7 +69,7 @@ export default function ContentSection() {
             <PaginationPrevious />
           </PaginationItem>
           {pagination.page >= 3 && (
-            <PaginationItem>
+            <PaginationItem className="cursor-pointer">
               <PaginationEllipsis />
             </PaginationItem>
           )}
@@ -78,7 +78,7 @@ export default function ContentSection() {
             .map((_, index) => (
               <>
                 <PaginationItem
-                  className={`${
+                  className={`cursor-pointer ${
                     Math.abs(pagination.page - (index + 1)) <= 1
                       ? "block"
                       : "hidden"
@@ -95,11 +95,12 @@ export default function ContentSection() {
               </>
             ))}
           {pagination.page + 1 < Math.ceil(pagination.total / 9) && (
-            <PaginationItem>
+            <PaginationItem className="cursor-pointer">
               <PaginationEllipsis />
             </PaginationItem>
           )}
           <PaginationItem
+            className="cursor-pointer"
             onClick={() =>
               setPagination({
                 ...pagination,
