@@ -76,23 +76,21 @@ export default function ContentSection() {
           {Array(Math.ceil(pagination.total / 9))
             .keys()
             .map((_, index) => (
-              <>
-                <PaginationItem
-                  className={`cursor-pointer ${
-                    Math.abs(pagination.page - (index + 1)) <= 1
-                      ? "block"
-                      : "hidden"
-                  } `}
-                  key={index}
-                  onClick={() =>
-                    setPagination({ ...pagination, page: index + 1 })
-                  }
-                >
-                  <PaginationLink isActive={pagination.page === index + 1}>
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              </>
+              <PaginationItem
+                className={`cursor-pointer ${
+                  Math.abs(pagination.page - (index + 1)) <= 1
+                    ? "block"
+                    : "hidden"
+                } `}
+                key={index}
+                onClick={() =>
+                  setPagination({ ...pagination, page: index + 1 })
+                }
+              >
+                <PaginationLink isActive={pagination.page === index + 1}>
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
             ))}
           {pagination.page + 1 < Math.ceil(pagination.total / 9) && (
             <PaginationItem className="cursor-pointer">

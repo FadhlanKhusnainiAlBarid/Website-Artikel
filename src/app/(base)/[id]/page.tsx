@@ -6,6 +6,7 @@ import { consecutiveUniqueRandom } from "unique-random";
 import CardArticle from "@/components/custom/card-article";
 import ContentSection from "@/components/section/base/detail-article/content";
 import { ArticleData } from "@/components/section/base/content";
+import ArticleSection from "@/components/section/base/detail-article/article";
 
 async function DetailArticle({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -20,11 +21,19 @@ async function DetailArticle({ params }: { params: Promise<{ id: string }> }) {
     }
   }
 
-  async function fetchArticles(id: string) {
+  async function fetchArticles(
+    categoryId: string,
+    id: string
+  ): Promise<ArticleData[]> {
     try {
-      const response = await axiosInstance.get("/articles");
+      const response = await axiosInstance.get("/articles", {
+        params: {
+          category: categoryId,
+          limit: 1000,
+        },
+      });
       const random = consecutiveUniqueRandom(1, response.data.data.length - 1);
-      const uniqueArticles = new Set();
+      const uniqueArticles = new Set<ArticleData>();
       if (response.data.data) {
         for (let i = 0; i < 9; i++) {
           const randomIndex = random();
@@ -42,36 +51,10 @@ async function DetailArticle({ params }: { params: Promise<{ id: string }> }) {
   }
 
   const detailArticles = await fetchArticle(id);
-  const articles = await fetchArticles(id);
-  console.log(articles);
+  const articles = await fetchArticles(detailArticles.categoryId, id);
   return (
     <>
-      <section className="mx-auto flex flex-col items-center pt-[103.972px] pb-10 px-5 lg:px-40">
-        <div className="max-w-[1120px] space-y-10">
-          <div className="space-y-4 text-center">
-            <span className="flex items-center justify-center text-sm font-medium text-slate-600">
-              <p> February 4, 2025 </p>
-              <ul className="list-disc list-outside ml-7">
-                <li>Created by Admin</li>
-              </ul>
-            </span>
-            <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">
-              Figma's New Dev Mode: A Game-Changer for Designers & Developers
-            </h1>
-          </div>
-          <Image
-            src={detailArticles?.imageUrl}
-            alt={detailArticles?.title}
-            width={800}
-            height={400}
-            className="w-full h-[240px] md:h-[480px] rounded-xl object-cover"
-          />
-          <div
-            className="space-y-4 md:text-base text-sm"
-            dangerouslySetInnerHTML={{ __html: detailArticles?.content }}
-          />
-        </div>
-      </section>
+      <ArticleSection article={detailArticles} />
       <ContentSection articles={articles} />
     </>
   );

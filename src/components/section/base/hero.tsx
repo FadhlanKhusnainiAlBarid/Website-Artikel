@@ -54,7 +54,6 @@ export default function HeroSection() {
               limit: 9,
             },
           });
-          console.log(response.data);
           setArticles(response.data.data);
           setPagination({
             total: response.data.total,
@@ -92,10 +91,6 @@ export default function HeroSection() {
     }
     getCategories();
   }, []);
-
-  useEffect(() => {
-    console.log(cetegories);
-  }, [cetegories]);
 
   return (
     <section
