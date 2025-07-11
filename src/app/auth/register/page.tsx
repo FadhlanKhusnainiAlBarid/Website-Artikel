@@ -60,6 +60,14 @@ export default function Register() {
       const responseLogin = await axiosInstance.post("/auth/login", value);
       cookies.set("token", responseLogin.data.token);
       cookies.set("role", responseLogin.data.role);
+      localStorage.setItem(
+        "auth",
+        JSON.stringify({
+          username: value.username,
+          password: value.password,
+          role: value.role,
+        })
+      );
       router.push("/");
     } catch (error) {
       console.error(error);

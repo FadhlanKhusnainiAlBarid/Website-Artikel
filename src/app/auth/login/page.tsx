@@ -50,6 +50,14 @@ export default function Login() {
       const response = await axiosInstance.post("/auth/login", value);
       cookies.set("token", response.data.token);
       cookies.set("role", response.data.role);
+      localStorage.setItem(
+        "auth",
+        JSON.stringify({
+          username: value.username,
+          password: value.password,
+          role: response.data.role,
+        })
+      );
       router.push("/");
     } catch (error) {
       console.error(error);
