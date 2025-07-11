@@ -42,16 +42,7 @@ async function Account() {
   const userData = await fetchUserData();
   return (
     <div className="h-[calc(100vh-8.36rem)] md:h-[calc(100vh-6.15rem)] flex justify-center items-center px-5 md:px-0 pt-[4rem] md:pt-0">
-      <div className="w-[400px] flex flex-col items-center gap-9 py-6 px-4">
-        <h1 className="text-xl font-semibold text-slate-900">User Profile</h1>
-        <Card userData={userData} />
-        <Button
-          asChild
-          className="h-10 w-full font-archivo bg-blue-600 hover:bg-blue-700"
-        >
-          <Link href="/">Back to home</Link>
-        </Button>
-      </div>
+      <Card userData={userData} />
     </div>
   );
 }

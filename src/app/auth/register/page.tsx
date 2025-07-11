@@ -68,7 +68,11 @@ export default function Register() {
           role: value.role,
         })
       );
-      router.push("/");
+      if (responseLogin.data.role === "User") {
+        router.push("/");
+      } else {
+        router.push("/dashboard/articles");
+      }
     } catch (error) {
       console.error(error);
     }
