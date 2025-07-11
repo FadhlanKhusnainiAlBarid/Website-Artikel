@@ -1,8 +1,5 @@
 import { create } from "zustand";
-import {
-  ArticleData,
-  PaginationData,
-} from "@/components/section/base/detail/content";
+import { ArticleData, PaginationData } from "@/components/section/base/content";
 
 type ArticlesStore = {
   articles: ArticleData[];
@@ -20,4 +17,14 @@ export const useArticlesStore = create<ArticlesStore>((set) => ({
     limit: 0,
   },
   setPagination: (pagination: PaginationData) => set({ pagination }),
+}));
+
+type openDropdownType = {
+  openDropdown: boolean;
+  setOpenDropdown: (open: boolean) => void;
+};
+
+export const useOpenDropdownStore = create<openDropdownType>((set) => ({
+  openDropdown: false,
+  setOpenDropdown: (open: boolean) => set({ openDropdown: open }),
 }));
