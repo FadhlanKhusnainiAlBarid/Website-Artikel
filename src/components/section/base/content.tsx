@@ -1,5 +1,6 @@
 "use client";
 import CardArticle from "@/components/custom/card-article";
+import { formSchema } from "@/components/custom/form-category";
 import {
   Pagination,
   PaginationContent,
@@ -9,7 +10,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { axiosInstance } from "@/lib/axios";
 import { useArticlesStore } from "@/state/state";
+import debounce from "lodash.debounce";
+import { use, useCallback, useEffect } from "react";
+import z from "zod";
 
 export interface ArticleData {
   id: string;
@@ -43,8 +48,23 @@ export interface DataSection extends PaginationData {
   data: ArticleData[];
 }
 
-export default function ContentSection() {
-  const { articles, pagination, setPagination } = useArticlesStore();
+export default function ContentSection({
+  articlesData,
+}: {
+  articlesData: DataSection;
+}) {
+  const { articles, setArticles, pagination, setPagination } =
+    useArticlesStore();
+  
+  useEffect(() => {
+    setArticles(articlesData.data);
+    setPagination({
+      total: articlesData.total,
+      page: articlesData.page,
+      limit: articlesData.limit,
+    });
+  }, []);
+
   return (
     <section className="mx-auto container max-w-[1440px] space-y-6 pt-10 pb-[60px] md:pb-[100px] px-5 md:px-[100px]">
       <h6 className="font-archivo text-base hidden md:block">
