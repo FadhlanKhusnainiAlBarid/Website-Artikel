@@ -1,9 +1,7 @@
 "use server";
 import React from "react";
-import Image from "next/image";
 import { axiosInstance } from "@/lib/axios";
 import { consecutiveUniqueRandom } from "unique-random";
-import CardArticle from "@/components/custom/card-article";
 import ContentSection from "@/components/section/base/detail-article/content";
 import { ArticleData } from "@/components/section/base/content";
 import ArticleSection from "@/components/section/base/detail-article/article";

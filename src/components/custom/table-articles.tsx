@@ -28,7 +28,14 @@ export default function TableArticles({
       page: articlesData.page,
       limit: articlesData.limit,
     });
-  }, []);
+  }, [
+    articlesData.data,
+    articlesData.total,
+    articlesData.page,
+    articlesData.limit,
+    setArticles,
+    setPagination,
+  ]);
 
   return (
     <Table>

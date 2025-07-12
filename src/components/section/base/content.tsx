@@ -51,7 +51,14 @@ export default function ContentSection({
       page: articlesData.page,
       limit: articlesData.limit,
     });
-  }, []);
+  }, [
+    articlesData.data,
+    articlesData.total,
+    articlesData.page,
+    articlesData.limit,
+    setArticles,
+    setPagination
+  ]);
 
   return (
     <section className="mx-auto container max-w-[1440px] space-y-6 pt-10 pb-[60px] md:pb-[100px] px-5 md:px-[100px]">

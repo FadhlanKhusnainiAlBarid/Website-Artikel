@@ -149,7 +149,7 @@ export default function Login() {
                 Login
               </Button>
               <span className="text-sm font-[family-name:var(--font-archivo)]">
-                Don't have an account?{" "}
+                {"Don't have an account? "}
                 <Link
                   className="text-blue-600 underline underline-offset-2"
                   href="register"

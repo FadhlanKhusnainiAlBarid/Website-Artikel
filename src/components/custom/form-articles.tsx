@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { Form } from "@/components/ui/form";
 import { useArticlesStore } from "@/state/state";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,19 +28,20 @@ export default function FormArticles() {
   const pathname = usePathname();
   const isFirstRender = useRef(true);
 
-  const debouncedSearch = useCallback(
-    debounce(() => {
-      async function onSubmit(value: z.infer<typeof formSchema>) {
+  const debouncedSearch = useMemo(
+    () =>
+      debounce(async () => {
+        const values = form.getValues();
         try {
           const response = await axiosInstance.get("/articles", {
             params: {
-              category: value.category,
-              title: value.search,
+              category: values.category,
+              title: values.search,
               page: pagination.page,
               limit: 9,
             },
           });
-          localStorage.setItem("articles", JSON.stringify(value));
+          localStorage.setItem("articles", JSON.stringify(values));
           setArticles(response.data.data);
           setPagination({
             total: response.data.total,
@@ -50,10 +51,8 @@ export default function FormArticles() {
         } catch (error) {
           console.error("Error fetching articles:", error);
         }
-      }
-      onSubmit(form.getValues());
-    }, 500),
-    [pagination.page]
+      }, 500),
+    [pagination.page, form, setArticles, setPagination]
   );
 
   useEffect(() => {
@@ -68,7 +67,7 @@ export default function FormArticles() {
     return () => {
       debouncedSearch.cancel(); // bersihkan debounce kalau dibutuhkan
     };
-  }, [pagination.page]);
+  }, [pagination.page, debouncedSearch]);
 
   return (
     <Form {...form}>

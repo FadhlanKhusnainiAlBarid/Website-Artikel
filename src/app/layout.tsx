@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Archivo } from "next/font/google";
+import { CookiesProvider } from "next-client-cookies/server";
 import "./globals.css";
 import "./style.css";
 
@@ -33,7 +34,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${archivo.variable} antialiased`}
       >
-        {children}
+        <CookiesProvider>{children}</CookiesProvider>
       </body>
     </html>
   );

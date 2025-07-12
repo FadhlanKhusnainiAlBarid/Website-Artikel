@@ -2,8 +2,10 @@
 import React from "react";
 import Image from "next/image";
 import { ArticleData } from "@/components/section/base/content";
+import DOMPurify from "dompurify";
 
 export default function ArticleSection({ article }: { article: ArticleData }) {
+  const sanitizedHtmlContent = DOMPurify.sanitize(article?.content);
   return (
     <section className="mx-auto flex flex-col items-center pt-[103.972px] pb-10 px-5 lg:px-40">
       <div className="max-w-[1120px] space-y-10">
@@ -15,7 +17,7 @@ export default function ArticleSection({ article }: { article: ArticleData }) {
             </ul>
           </span>
           <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">
-            Figma's New Dev Mode: A Game-Changer for Designers & Developers
+            Figma&apos;s New Dev Mode: A Game-Changer for Designers & Developers
           </h1>
         </div>
         <Image
@@ -29,7 +31,7 @@ export default function ArticleSection({ article }: { article: ArticleData }) {
         />
         <div
           className="space-y-4 md:text-base text-sm"
-          dangerouslySetInnerHTML={{ __html: article?.content }}
+          dangerouslySetInnerHTML={{ __html: sanitizedHtmlContent }}
         />
       </div>
     </section>

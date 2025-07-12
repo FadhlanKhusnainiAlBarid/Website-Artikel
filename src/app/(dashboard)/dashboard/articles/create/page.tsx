@@ -7,24 +7,15 @@ import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { axiosInstance } from "@/lib/axios";
 import FormSelectCreateArticles from "@/components/custom/form-select-create-articles";
-
-export const formSchemaCreateArticle = z.object({
-  image: z.string().min(1, "Image is required"),
-  title: z.string().min(1).max(100),
-  // content: z.string().min(1),
-  categoryId: z.string().min(1, "Category is required"),
-});
+import { formSchemaCreateArticle } from "@/lib/schema/article";
 
 export default function CreateArticle() {
   const form = useForm<z.infer<typeof formSchemaCreateArticle>>({

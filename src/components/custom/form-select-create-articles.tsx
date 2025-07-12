@@ -18,9 +18,9 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { usePathname } from "next/navigation";
-import { formSchemaCreateArticle } from "@/app/(dashboard)/dashboard/articles/create/page";
 import { cetegories } from "./form-select-articles";
 import { Label } from "../ui/label";
+import { formSchemaCreateArticle } from "@/lib/schema/article";
 
 export default function FormSelectCreateArticles({
   form,

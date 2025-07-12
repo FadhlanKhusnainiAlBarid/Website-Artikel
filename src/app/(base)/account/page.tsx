@@ -1,7 +1,5 @@
 "use server";
 import React from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { axiosInstance } from "@/lib/axios";
 import { cookies } from "next/headers";
 import Card from "@/components/section/base/account/card";
