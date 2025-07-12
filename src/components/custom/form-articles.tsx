@@ -79,7 +79,7 @@ export default function FormArticles() {
         }}
         className={` ${
           pathname.startsWith("/dashboard")
-            ? "mx-6"
+            ? "ml-6"
             : "w-full p-2.5 bg-[rgb(59,130,246)] rounded-xl"
         } md:w-fit flex flex-col md:flex-row items-center gap-2`}
       >

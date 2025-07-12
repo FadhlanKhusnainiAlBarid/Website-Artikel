@@ -20,7 +20,7 @@ export default function InputArticles({
         <FormItem
           className={` ${
             pathname.startsWith("/dashboard")
-              ? "min-w-full md:min-w-[240px]"
+              ? "min-w-fit lg:min-w-[240px] md:min-w-fit"
               : "min-w-full md:min-w-[400px]"
           } relative flex items-center`}
         >

@@ -24,7 +24,7 @@ export default function SidebarDashboard() {
   return (
     <Sidebar>
       <SidebarContent className="bg-blue-600">
-        <SidebarGroup className="pt-6">
+        <SidebarGroup className="pt-6 space-y-6">
           <SidebarGroupLabel>
             <Image src={LogoWhite} alt="Logo" className="h-6" />
           </SidebarGroupLabel>

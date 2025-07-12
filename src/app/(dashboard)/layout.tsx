@@ -11,7 +11,7 @@ export default function Dashboard({
   return (
     <>
       <SidebarProvider className="data-[slot='sidebar']:hidden">
-        <main className="ml-0 md:ml-[16rem]">
+        <main className="ml-0 md:ml-[16rem] h-screen overflow-y-auto w-full">
           <NavbarDashboard />
           <div className="h-full lg:h-[calc(100vh-4.6rem)] bg-gray-100 p-6">
             <div className="bg-gray-50 border border-slate-200 rounded-xl p-6">

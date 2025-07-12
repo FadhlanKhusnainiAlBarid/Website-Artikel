@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -30,9 +31,9 @@ export default function TableArticles({
   }, []);
 
   return (
-    <Table className="-mx-6">
+    <Table>
       <TableHeader>
-        <TableRow className="*:font-archivo *:text-center *:text-head *:text-sm *:font-medium *:text-slate-900 *:py-1">
+        <TableRow className=" *:bg-slate-200 *:font-archivo *:text-center *:text-head *:text-sm *:font-medium *:text-slate-900 *:py-1">
           <TableHead>Thumbnails</TableHead>
           <TableHead>Title</TableHead>
           <TableHead>Category</TableHead>
@@ -73,7 +74,19 @@ export default function TableArticles({
               <TableCell className="w-1/5 text-center">
                 {formattedDate}
               </TableCell>
-              <TableCell className="w-1/5 text-center">$250.00</TableCell>
+              <TableCell className="w-1/5">
+                <div className="flex justify-center items-center gap-3 *:underline *:underline-offset-2">
+                  <Link href={`/${article.id}`} className="text-blue-500">
+                    Preview
+                  </Link>
+                  <Link href={`/${article.id}`} className="text-blue-500">
+                    Edit
+                  </Link>
+                  <Link href={`/${article.id}`} className="text-red-500">
+                    Delete
+                  </Link>
+                </div>
+              </TableCell>
             </TableRow>
           );
         })}

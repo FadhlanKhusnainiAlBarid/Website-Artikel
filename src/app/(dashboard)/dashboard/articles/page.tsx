@@ -1,20 +1,13 @@
 "use server";
 import React from "react";
-import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import FormCategory from "@/components/custom/form-articles";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { axiosInstance } from "@/lib/axios";
 import { DataSection } from "@/components/section/base/content";
-import { format } from "date-fns";
 import PaginationArticles from "@/components/custom/pagination-articles";
 import TableArticles from "@/components/custom/table-articles";
+import { Plus } from "lucide-react";
 
 async function Articles() {
   async function fetchArticles(): Promise<DataSection> {
@@ -39,11 +32,25 @@ async function Articles() {
         <h1 className="text-base font-medium text-slate-800">
           Total Articles : {response.data.length}
         </h1>
-        <div className="-mx-6 py-6 border-y border-slate-200">
+        <div className="flex justify-between items-center -mx-6 py-6 border-y border-slate-200">
           <FormCategory />
+          <Button
+            className="cursor-pointer mr-6 font-archivo text-sm font-medium bg-blue-600 hover:bg-blue-700"
+            asChild
+          >
+            <Link
+              href="/dashboard/articles/create"
+              className="flex items-center gap-2 text-white"
+            >
+              <Plus className="size-5" />
+              Add Article
+            </Link>
+          </Button>
         </div>
       </header>
-      <TableArticles articlesData={response} />
+      <div className="-mx-6 border-b border-slate-200">
+        <TableArticles articlesData={response} />
+      </div>
       <header className="flex justify-center py-6">
         <PaginationArticles />
       </header>

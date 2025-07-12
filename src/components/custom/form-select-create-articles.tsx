@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { axiosInstance } from "@/lib/axios";
 import {
   Select,
@@ -8,24 +9,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { formSchema } from "./form-articles";
 import { usePathname } from "next/navigation";
+import { formSchemaCreateArticle } from "@/app/(dashboard)/dashboard/articles/create/page";
+import { cetegories } from "./form-select-articles";
+import { Label } from "../ui/label";
 
-export interface cetegories {
-  id: string;
-  userId: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export default function SelectArticles({
+export default function FormSelectCreateArticles({
   form,
 }: {
-  form: ReturnType<typeof useForm<z.infer<typeof formSchema>>>;
+  form: ReturnType<typeof useForm<z.infer<typeof formSchemaCreateArticle>>>;
 }) {
   const [cetegories, setCetegories] = useState<cetegories[]>([]);
   const pathname = usePathname();
@@ -55,9 +55,15 @@ export default function SelectArticles({
   return (
     <FormField
       control={form.control}
-      name="category"
+      name="categoryId"
       render={({ field }) => (
         <FormItem className="w-full">
+          <Label
+            htmlFor="categoryId"
+            className="text-sm font-medium font-archivo text-gray-900"
+          >
+            Category
+          </Label>
           <FormControl>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <SelectTrigger
@@ -80,6 +86,17 @@ export default function SelectArticles({
               </SelectContent>
             </Select>
           </FormControl>
+          <FormMessage />
+          <p className="text-sm font-normal font-archivo text-slate-500">
+            The existing category list can be seen in the{" "}
+            <Link
+              href="/dashboard/categories"
+              className="text-blue-500 hover:underline"
+            >
+              category
+            </Link>{" "}
+            menu
+          </p>
         </FormItem>
       )}
     />
