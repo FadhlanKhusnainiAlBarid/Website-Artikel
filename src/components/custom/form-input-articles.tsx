@@ -2,11 +2,11 @@ import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { formSchema } from "./form-category";
+import { formSchema } from "./form-articles";
 import z from "zod";
 import { usePathname } from "next/navigation";
 
-function InputCategory({
+export default function InputArticles({
   form,
 }: {
   form: ReturnType<typeof useForm<z.infer<typeof formSchema>>>;
@@ -37,5 +37,3 @@ function InputCategory({
     />
   );
 }
-
-export default InputCategory;

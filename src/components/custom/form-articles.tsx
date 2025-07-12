@@ -1,13 +1,13 @@
 "use client";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Form } from "@/components/ui/form";
 import { useArticlesStore } from "@/state/state";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { axiosInstance } from "@/lib/axios";
-import SelectCategory from "@/components/custom/form-select-category";
-import InputCategory from "@/components/custom/form-input-category";
+import SelectCategory from "@/components/custom/form-select-articles";
+import InputCategory from "@/components/custom/form-input-articles";
 import debounce from "lodash.debounce";
 import { usePathname } from "next/navigation";
 
@@ -16,7 +16,7 @@ export const formSchema = z.object({
   search: z.string().optional(),
 });
 
-export default function FormCategory() {
+export default function FormArticles() {
   const { setArticles, pagination, setPagination } = useArticlesStore();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -26,6 +26,7 @@ export default function FormCategory() {
     },
   });
   const pathname = usePathname();
+  const isFirstRender = useRef(true);
 
   const debouncedSearch = useCallback(
     debounce(() => {
@@ -35,7 +36,7 @@ export default function FormCategory() {
             params: {
               category: value.category,
               title: value.search,
-              page: 1,
+              page: pagination.page,
               limit: 9,
             },
           });
@@ -52,8 +53,22 @@ export default function FormCategory() {
       }
       onSubmit(form.getValues());
     }, 500),
-    []
+    [pagination.page]
   );
+
+  useEffect(() => {
+    console.log(pagination.page);
+    if (isFirstRender.current) {
+      isFirstRender.current = false; // set ke false setelah first render
+      return;
+    }
+
+    debouncedSearch(); // hanya jalan saat page berubah, bukan saat first render
+
+    return () => {
+      debouncedSearch.cancel(); // bersihkan debounce kalau dibutuhkan
+    };
+  }, [pagination.page]);
 
   return (
     <Form {...form}>

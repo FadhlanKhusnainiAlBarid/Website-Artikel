@@ -102,6 +102,7 @@ export default function DropdownProfile({
               onClick={() => {
                 cookies.remove("token");
                 cookies.remove("user");
+                setOpenDialog(false);
                 router.refresh();
               }}
             >

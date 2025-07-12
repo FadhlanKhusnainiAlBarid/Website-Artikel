@@ -11,7 +11,7 @@ import {
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { formSchema } from "./form-category";
+import { formSchema } from "./form-articles";
 import { usePathname } from "next/navigation";
 
 interface cetegories {
@@ -22,7 +22,7 @@ interface cetegories {
   updatedAt: string;
 }
 
-export default function SelectCategory({
+export default function SelectArticles({
   form,
 }: {
   form: ReturnType<typeof useForm<z.infer<typeof formSchema>>>;

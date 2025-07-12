@@ -11,10 +11,10 @@ export default function Dashboard({
   return (
     <>
       <SidebarProvider className="data-[slot='sidebar']:hidden">
-        <main className="ml-0 md:ml-[16rem] w-full h-screen">
+        <main className="ml-0 md:ml-[16rem]">
           <NavbarDashboard />
-          <div className="h-[68.3rem] bg-gray-100 p-6">
-            <div className="h-full bg-gray-50 border border-slate-200 rounded-xl p-6">
+          <div className="h-full lg:h-[calc(100vh-4.6rem)] bg-gray-100 p-6">
+            <div className="bg-gray-50 border border-slate-200 rounded-xl p-6">
               {children}
             </div>
           </div>

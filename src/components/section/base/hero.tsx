@@ -1,6 +1,6 @@
 "use client";
 import Image_Background from "../../../../public/images/image-background.jpg";
-import FormCategory from "@/components/custom/form-category";
+import FormCategory from "@/components/custom/form-articles";
 
 export default function HeroSection() {
   return (
