@@ -28,3 +28,13 @@ export const useOpenDropdownStore = create<openDropdownType>((set) => ({
   openDropdown: false,
   setOpenDropdown: (open: boolean) => set({ openDropdown: open }),
 }));
+
+type DialogStore = {
+  openDialog: boolean;
+  setOpenDialog: (open: boolean) => void;
+};
+
+export const useDialogStore = create<DialogStore>((set) => ({
+  openDialog: false,
+  setOpenDialog: (open: boolean) => set({ openDialog: open }),
+}));

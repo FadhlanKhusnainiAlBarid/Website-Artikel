@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { useCookies } from "next-client-cookies";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useDialogStore } from "@/state/state";
 
 export default function DropdownProfile({
   openDropdown,
@@ -28,7 +29,7 @@ export default function DropdownProfile({
   openDropdown: boolean;
   setOpenDropdown: (open: boolean) => void;
 }) {
-  const [openDialog, setOpenDialog] = useState(false);
+  const { openDialog, setOpenDialog } = useDialogStore();
   const cookies = useCookies();
   const router = useRouter();
   const pathname = usePathname();
